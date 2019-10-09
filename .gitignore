@@ -1,0 +1,6 @@
+*.class
+*.log
+testServer/
+lib/
+out/
+!*.puthere

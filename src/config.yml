@@ -1,0 +1,14 @@
+# Default language; English: en, 简体普通话: cmn_Hans, 简体文言文: lzh_Hans
+lang: en
+# Will not display the death screen
+auto_respawn: true
+# Back to the random ground near the place of death
+back_random: true
+# Min 1.0
+random_radius: 32
+# Set to true so that the player can only back once
+back_once: false
+# Set to true to auto back to the place of death after the player dies
+auto_back: false
+# Store the location of the death
+store_location: false

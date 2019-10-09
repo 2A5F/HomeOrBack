@@ -1,0 +1,6 @@
+name: HomeOrBack
+version: 1.0.0
+author: meowtype.io
+main: io.meowtype.homeorback.HomeOrBack
+commands:
+  hob: {}

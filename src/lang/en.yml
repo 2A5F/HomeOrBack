@@ -1,0 +1,7 @@
+choose_respawn: Choose a resurrection method
+respawn_on_spawn: Respawn at the spawn location
+auto_choose_when_close: When close auto choose this
+respawn_near_death: Respawn near the death location
+respawn_at_death: Respawn at the death location
+back_near_any_time: You can always use /hob back to get back to near the death location
+back_at_any_time: You can always use /hob back to get back to the death location
