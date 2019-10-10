@@ -12,32 +12,43 @@ import org.bukkit.event._
 import org.bukkit.inventory._
 import org.bukkit.plugin.java.JavaPlugin
 import ReSpawnGui._
+import org.bukkit.configuration.ConfigurationSection
 
 class HomeOrBack extends JavaPlugin {
   private val self = this
 
   override def onLoad() {
     HomeOrBack._instance = this
-
+    saveDefaultConfig()
+    Lang.loadLang()
     getLogger info "Loaded"
   }
 
   override def onEnable() {
-    Lang.loadLang()
-
-    saveDefaultConfig()
     getServer.getPluginManager.registerEvents(listener, this)
     getCommand("hob") setExecutor  this
     getLogger info "Enabled"
   }
 
+  // region Configs
+
   def lang: String = getConfig.getString("lang", "en")
+
   def auto_respawn: Boolean = getConfig.getBoolean("auto_respawn", true)
-  def back_random: Boolean = getConfig.getBoolean("back_random", true)
-  def random_radius: Double = getConfig.getDouble("random_radius", 16)
-  def back_once: Boolean = getConfig.getBoolean("back_once", false)
   def auto_back: Boolean = getConfig.getBoolean("auto_back", false)
+
+  def back_random: BackRandom = new BackRandom(getConfig.getConfigurationSection("back_random"))
+  class BackRandom(val section: ConfigurationSection) {
+    def enable: Boolean = section.getBoolean("enable", true)
+    def min: Double = section.getDouble("min", 8)
+    def max: Double = section.getDouble("max", 32)
+  }
+
+  def back_command: Boolean = getConfig.getBoolean("back_command", true)
+
   def store_location: Boolean = getConfig.getBoolean("store_location", false)
+
+  // endregion
 
   override def onDisable() {
     getLogger info "Disabled"
@@ -60,9 +71,9 @@ class HomeOrBack extends JavaPlugin {
       player sendMessage "你死了 " + player.hashCode
 
       if(auto_respawn) {
-        Bukkit.getScheduler.scheduleSyncDelayedTask(self, () => {
+        runTask { ()=>
           player.spigot respawn()
-        })
+        }
       }
     }
 
@@ -75,9 +86,9 @@ class HomeOrBack extends JavaPlugin {
         if(auto_back) {
           player backTo (self.deathLocationMap get player)
         } else {
-          Bukkit.getScheduler.scheduleSyncDelayedTask(self, () => {
+          runTask { () =>
             player open new ReSpawnGui(self, Lang getFor player)
-          })
+          }
         }
       }
     }

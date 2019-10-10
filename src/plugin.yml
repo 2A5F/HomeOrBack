@@ -2,5 +2,23 @@ name: HomeOrBack
 version: 1.0.0
 author: meowtype.io
 main: io.meowtype.homeorback.HomeOrBack
+permissions:
+  hob.*:
+    default: true
+    children:
+      hob.back: true
+      hob.op: true
+  hob.op:
+    default: op
+    children:
+      hob.back: false
+  hob.back:
+    default: true
 commands:
-  hob: {}
+  hob:
+    aliases:
+    - HomeOrBack
+    - home-or-back
+    permission: hob.*
+  back:
+    permission: hob.back

@@ -4,6 +4,7 @@
     <root id="archive" name="HomeOrBack.jar">
       <element id="module-output" name="HomeOrBack" />
       <element id="module-source" name="Scala" />
+      <element id="module-source" name="HomeOrBack" />
     </root>
   </artifact>
 </component>
