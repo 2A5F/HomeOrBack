@@ -19,3 +19,8 @@ back_command: true
 
 # Store the location of the death
 store_location: false
+
+
+
+
+debug: false

@@ -13,7 +13,8 @@ class Lang(val name: String, val choose_respawn: String,
            val respawn_near_death: String,
            val respawn_at_death: String,
            val back_near_any_time: String,
-           val back_at_any_time: String)
+           val back_at_any_time: String,
+           val tpr_failed: String)
 object Lang {
   val lang_map = new util.HashMap[String, Lang]()
 
@@ -46,6 +47,7 @@ object Lang {
         lang getString "respawn_at_death",
         lang getString "back_near_any_time",
         lang getString "back_at_any_time",
+        lang getString "tpr_failed",
       )
     }
 

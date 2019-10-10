@@ -1,7 +1,8 @@
 choose_respawn: 择生也
-respawn_on_spawn: 生于生点
-auto_choose_when_close: 闭自择此项
-respawn_near_death: 死地近生
-respawn_at_death: 死地复生
-back_near_any_time: 尔时皆可以 / hob back 归死地近
-back_at_any_time: 尔时皆可以 /hob back 归死地
+respawn_on_spawn: §6生于生点
+auto_choose_when_close: §f闭自择此项
+respawn_near_death: §6死地近生
+respawn_at_death: §6死地复生
+back_near_any_time: §f尔时皆可以 §6/back §f归死地近
+back_at_any_time: §f尔时皆可以 §6/back §f归死地
+tpr_failed: §c随传失败，近无可立之间

@@ -1,7 +1,8 @@
 choose_respawn: 选择复活方式
-respawn_on_spawn: 在复活点重生
-auto_choose_when_close: 关闭界面自动选择此项
-respawn_near_death: 在死亡地点附近重生
-respawn_at_death: 在死亡地点重生
-back_near_any_time: 你随时都能使用 /hob back 来回到死亡地点附近
-back_at_any_time: 你随时都能使用 /hob back 来回到死亡地点
+respawn_on_spawn: §6在复活点重生
+auto_choose_when_close: §f关闭界面自动选择此项
+respawn_near_death: §6在死亡地点附近重生
+respawn_at_death: §6在死亡地点重生
+back_near_any_time: §f你随时都能使用 §6/back §f来回到死亡地点附近
+back_at_any_time: §f你随时都能使用 §6/back §f来回到死亡地点
+tpr_failed: §c随机传送失败，附近没有任何落脚点

@@ -41,10 +41,11 @@ package object homeorback {
   }
 
   class Break(val uid: java.lang.Object) extends Throwable
+  class BreakR[R](uid: java.lang.Object, val r: R) extends Break(uid)
 
   def loop(): Action[Action[Action0]] = loop(()=> true)
   def loop(c: Func[Boolean]): Action[Action[Action0]] = loop(c, Action0.empty)
-  def loop(c: Func[Boolean], after: Action0): Action[Action[Action0]] = loop(c, after,  Action0.empty)
+  def loop(c: Func[Boolean], after: Action0): Action[Action[Action0]] = loop(c, after, Action0.empty)
   def loop(c: Func[Boolean], after: Action0, last: Action0): Action[Action[Action0]] = new Action[Action[Action0]] {
     override def apply(a: Action[Action0]) {
       val uid = new java.lang.Object
@@ -53,6 +54,22 @@ package object homeorback {
         try { a(break) }
         catch {
           case break: Break => if(break.uid == uid) return
+        }
+        after()
+      }
+      last()
+    }
+  }
+  def loopR[R](last: Func[R]): Function[Action[Action[R]], R] = loopR[R](()=> true, last)
+  def loopR[R](c: Func[Boolean], last: Func[R]): Function[Action[Action[R]], R] = loopR[R](c, Action0.empty, last)
+  def loopR[R](c: Func[Boolean], after: Action0, last: Func[R]): Function[Action[Action[R]], R] = new Function[Action[Action[R]], R] {
+    override def apply(a: Action[Action[R]]): R = {
+      val uid = new java.lang.Object
+      val break: Action[R] = (r: R) => throw new BreakR[R](uid, r)
+      while (c()) {
+        try { a(break) }
+        catch {
+          case break: BreakR[R] => if(break.uid == uid) return break.r
         }
         after()
       }

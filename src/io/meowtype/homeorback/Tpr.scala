@@ -1,7 +1,7 @@
 package io.meowtype.homeorback
 
 import org.bukkit.block.BlockFace
-import org.bukkit.{ChatColor, Location, Material}
+import org.bukkit.{ChatColor, Location, Material, WorldBorder}
 import org.bukkit.entity.Player
 
 object Tpr {
@@ -15,9 +15,10 @@ object Tpr {
     val sx = target.getBlockX
     val sz = target.getBlockZ
 
-    var t = 0
+    self.getLogger.info("[debug(tpr.base)]: range:(" + min + ", " + max + ") [" + world.toString + "] target:(" + sx + " " + sz + ")")
 
-    loop(()=> t < 500, ()=> t += 1) { break =>
+    var t = 0
+    val loc = loopR[Location](()=> t < 500, ()=> t += 1, ()=> null) { break: Action[Location] =>
       val r = Math.random * (max - min) + min
       val a = Math.random * 360
       val x = Math.round(sx + r * Math.cos(a * Math.PI / 180))
@@ -25,27 +26,53 @@ object Tpr {
       val y = world.getHighestBlockYAt(x.toInt, z.toInt)
       val loc = new Location(world, x + 0.5, y, z + 0.5)
 
+      self.getLogger.info("[debug(tpr.loop" + t + ")]: r:[" + r + "] a:[" + a + "] loc:(" + x + ", " + y + ", " + z + ")")
+
       def toCheck(loc: Location): Boolean = {
-        val a = loc.getBlock
-        val an1 = a.getRelative(BlockFace.DOWN)
-        val a1 = a.getRelative(BlockFace.UP)
+        val a1 = loc.getBlock
+        val a = a1.getRelative(BlockFace.DOWN)
         val a2 = a1.getRelative(BlockFace.UP)
-        (a.getType.isSolid || a.getType == Material.WATER) &&
-          (a1.getType == Material.AIR || a1.getType == Material.WATER) &&
-          a2.getType == Material.AIR &&
-          an1.getType.isSolid || an1.getType == Material.WATER
+
+        self.getLogger.info("[debug(tpr.loop" + t + ".check)]: [" + a.getType.toString + "]; [" + a1.getType.toString + "]; [" + a2.getType.toString + "]")
+
+        (a.getType.isSolid || a.getType == Material.WATER || a.getType == Material.STATIONARY_WATER) &&
+          (a1.getType == Material.AIR || a1.getType == Material.WATER || a1.getType == Material.STATIONARY_WATER) &&
+          a2.getType == Material.AIR
       }
 
-      if(loc.getBlock.getType == Material.BEDROCK && loc.getBlockY >= 100) { // like world_nether
+      val maxHeight = loc.getBlockY
+      if(loc.getBlock.getRelative(BlockFace.DOWN).getType == Material.BEDROCK && loc.getBlockY >= 100) { // like world_nether
         var y = 5
-        val maxHeight = world.getMaxHeight
-        loop(()=> y < maxHeight, ()=> y += 1) { break =>
+        val loc: Location = loopR[Location](()=> y < maxHeight - 5, ()=> y += 1, ()=> null) { break: Action[Location] =>
           val loc = new Location(world, x + 0.5, y, z + 0.5)
-          if(toCheck(loc)) break()
+
+          self.getLogger.info("[debug(tpr.loop" + t + ".loop" + y + ")]: loc:[" + loc.toString + "]")
+
+          if(toCheck(loc)) break(loc)
         }
+        if(loc == null) return //continue
+        break(loc)
       }
 
-
+      if(toCheck(loc) && !isOutsideOfBorder(loc)) break(loc)
     }
+
+    if(loc == null) {
+      player sendMessage (Lang getFor player).tpr_failed
+      self.getLogger.info("[debug(tpr.failed)]: " + player.toString + " player tpr failed" )
+    } else {
+      player teleport loc
+      self.getLogger.info("[debug(tpr.tp)]: " + player.toString + " player tpr to [" + loc.toString +"]" )
+    }
+  }
+
+  def isOutsideOfBorder(loc: Location): Boolean = {
+    val border = loc.getWorld.getWorldBorder
+    val x = loc.getX
+    val z = loc.getZ
+    val size = border.getSize
+    val x_center = border.getCenter.getX
+    val z_center = border.getCenter.getZ
+    (x > size + x_center || -x > size - x_center) || (z > size + z_center || -z > size - z_center)
   }
 }
