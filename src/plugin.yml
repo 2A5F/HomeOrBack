@@ -10,8 +10,6 @@ permissions:
       hob.op: true
   hob.op:
     default: op
-    children:
-      hob.back: false
   hob.back:
     default: true
 commands:

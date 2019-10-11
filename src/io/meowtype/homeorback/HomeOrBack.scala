@@ -27,6 +27,7 @@ class HomeOrBack extends JavaPlugin {
   override def onEnable() {
     getServer.getPluginManager.registerEvents(listener, this)
     getCommand("hob") setExecutor  this
+    getCommand("back") setExecutor  this
     getLogger info "Enabled"
   }
 
@@ -48,6 +49,8 @@ class HomeOrBack extends JavaPlugin {
 
   def store_location: Boolean = getConfig.getBoolean("store_location", false)
 
+  def debug: Boolean = getConfig.getBoolean("debug", false)
+
   // endregion
 
   override def onDisable() {
@@ -55,10 +58,20 @@ class HomeOrBack extends JavaPlugin {
   }
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
-    if(sender.isInstanceOf[Player]){
-      sender.asInstanceOf[Player] open new ReSpawnGui(this, Lang getFor sender.asInstanceOf[Player])
-    }
-    true
+    if(label == "hob") {
+      if(sender.isInstanceOf[Player]){
+        sender.asInstanceOf[Player] open new ReSpawnGui(this, Lang getFor sender.asInstanceOf[Player])
+      }
+      true
+    } else if(label == "back") {
+      if(sender.isInstanceOf[Player]){
+        //debug
+        val player = sender.asInstanceOf[Player]
+        val loc = new Location(Bukkit.getWorld("world_nether"), 58, 50, 116)
+        player backTo loc
+      }
+      true
+    } else false
   }
 
   val deathLocationMap = new util.WeakHashMap[Player, Location]

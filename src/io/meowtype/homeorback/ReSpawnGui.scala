@@ -69,16 +69,17 @@ object ReSpawnGui {
       Tpr.tpr(player, loc)
     }
     def backTo(loc: Location) {
+      val self = HomeOrBack.instance
       if(loc == null) {
+        player.sendMessage((Lang getFor player).no_death_loc)
+        if(self.debug) self.getLogger.info("[debug(backTo)]: " + player.toString + " cant back: player not died yet")
         return //todo
       }
-      val self = HomeOrBack.instance
       if(self.back_random.enable) {
-        self.getLogger.info("[debug(backTo.tpr)]: " + player.toString +" try tpr to " + loc.toString)
+        if(self.debug) self.getLogger.info("[debug(backTo.tpr)]: " + player.toString +" try tpr to " + loc.toString)
         player tpr loc
-        //self.getServer.dispatchCommand(self.getServer.getConsoleSender, "spreadplayers " + loc.getBlockX + " " + loc.getBlockZ + " 0 " + self.back_random.max + " true " + player.getPlayerListName)
       } else {
-        self.getLogger.info("[debug(backTo.tp)]: " + player.toString +" tp to " + loc.toString)
+        if(self.debug) self.getLogger.info("[debug(backTo.tp)]: " + player.toString +" tp to " + loc.toString)
         player teleport loc
       }
       self.deathLocationMap remove player

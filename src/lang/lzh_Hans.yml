@@ -6,3 +6,4 @@ respawn_at_death: §6死地复生
 back_near_any_time: §f尔时皆可以 §6/back §f归死地近
 back_at_any_time: §f尔时皆可以 §6/back §f归死地
 tpr_failed: §c随传失败，近无可立之间
+no_death_loc: §c不可归，汝尚未死！
