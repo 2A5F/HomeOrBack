@@ -73,7 +73,7 @@ object ReSpawnGui {
       if(loc == null) {
         player.sendMessage((Lang getFor player).no_death_loc)
         if(self.debug) self.getLogger.info("[debug(backTo)]: " + player.toString + " cant back: player not died yet")
-        return //todo
+        return
       }
       if(self.back_random.enable) {
         if(self.debug) self.getLogger.info("[debug(backTo.tpr)]: " + player.toString +" try tpr to " + loc.toString)

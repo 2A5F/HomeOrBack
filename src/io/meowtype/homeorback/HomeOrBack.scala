@@ -58,18 +58,15 @@ class HomeOrBack extends JavaPlugin {
   }
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
+    if(!sender.isInstanceOf[Player]) return true
+    val player = sender.asInstanceOf[Player]
     if(label == "hob") {
-      if(sender.isInstanceOf[Player]){
-        sender.asInstanceOf[Player] open new ReSpawnGui(this, Lang getFor sender.asInstanceOf[Player])
-      }
+      player sendMessage util.Arrays.deepToString(args.asInstanceOf[Array[AnyRef]])
+      //todo
+      // player open new ReSpawnGui(this, Lang getFor player)
       true
     } else if(label == "back") {
-      if(sender.isInstanceOf[Player]){
-        //debug
-        val player = sender.asInstanceOf[Player]
-        val loc = new Location(Bukkit.getWorld("world_nether"), 58, 50, 116)
-        player backTo loc
-      }
+      player backTo (self.deathLocationMap get player)
       true
     } else false
   }
