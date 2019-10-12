@@ -1,3 +1,4 @@
+when_default_override: [zh_cn]
 choose_respawn: 择生也
 respawn_on_spawn: §6生于生点
 auto_choose_when_close: §f闭自择此项
@@ -7,3 +8,4 @@ back_near_any_time: §f尔时皆可以 §6/back §f归死地近
 back_at_any_time: §f尔时皆可以 §6/back §f归死地
 tpr_failed: §c随传失败，近无可立之间
 no_death_loc: §c不可归，汝尚未死！
+no_permission_command: §c不可执令，汝无权度

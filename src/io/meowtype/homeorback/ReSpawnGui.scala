@@ -1,6 +1,8 @@
 package io.meowtype.homeorback
 
 import java.util
+import java.util.regex._
+import java.util.stream.Collectors
 
 import org.bukkit._
 import org.bukkit.entity._
@@ -31,9 +33,8 @@ class ReSpawnGui(lang: Lang) extends InventoryHolder {
     meta setDisplayName name
 
     if(lore != null) {
-      val metalore = new util.ArrayList[String]
-      metalore add lore
-      meta setLore metalore
+      val lores = lore.split("\\\\n")
+      meta setLore (util.Arrays stream lores collect Collectors.toList[String])
     }
 
     item setItemMeta meta

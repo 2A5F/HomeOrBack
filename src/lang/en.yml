@@ -1,9 +1,11 @@
-choose_respawn: Choose a resurrection method
+mapping: [en_us]
+choose_respawn: Choose how to respawn
 respawn_on_spawn: §6Respawn at the spawn location
 auto_choose_when_close: §fWhen close auto choose this
 respawn_near_death: §6Respawn near the death location
 respawn_at_death: §6Respawn at the death location
-back_near_any_time: §fYou can always use §f/back §fto get back to near the death location
-back_at_any_time: §fYou can always use §f/back §fto get back to the death location
+back_near_any_time: §fYou can always use §f/back \n§fto get back to near the death location
+back_at_any_time: §fYou can always use §f/back \n§fto get back to the death location
 tpr_failed: §cRandom teleport failed, there is no space nearby to stand
 no_death_loc: §cCan't back, you have not died yet!
+no_permission_command: §cExecution command failed, you do not have permission

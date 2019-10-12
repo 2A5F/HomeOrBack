@@ -9,6 +9,7 @@ import java.util.zip.{ZipEntry, ZipInputStream}
 
 import org.bukkit.{Bukkit, Location, Particle}
 import org.bukkit.entity.Player
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.scheduler.{BukkitRunnable, BukkitTask}
 import org.sqlite.SQLiteConfig
 

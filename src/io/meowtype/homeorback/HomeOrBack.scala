@@ -36,7 +36,7 @@ class HomeOrBack extends JavaPlugin {
 
   // region Configs
 
-  def lang: String = getConfig.getString("lang", "en")
+  def lang: String = getConfig.getString("lang", "en").toLowerCase
 
   def auto_respawn: Boolean = getConfig.getBoolean("auto_respawn", true)
   def auto_back: Boolean = getConfig.getBoolean("auto_back", false)
@@ -60,7 +60,6 @@ class HomeOrBack extends JavaPlugin {
 
   // endregion
 
-  private val key_showP = new Object
   private val key_show_death_loc = new Object
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
@@ -68,7 +67,13 @@ class HomeOrBack extends JavaPlugin {
     val player = sender.asInstanceOf[Player]
     if(label == "hob") {
       player sendMessage util.Arrays.deepToString(args.asInstanceOf[Array[AnyRef]])
-      Tpr.debug_show_randomPointWithinTheRing(player, player.getLocation, 100)
+      if(args(0) == "back") {
+        if(!player.hasPermission("hob.back")) {
+          player sendMessage (Lang getFor player).no_permission_command
+        } else {
+          player backTo (self.deathLocationMap get player)
+        }
+      }
       //todo
       true
     } else if(label == "back") {
@@ -86,7 +91,6 @@ class HomeOrBack extends JavaPlugin {
       val player = event.getEntity
       val loc = player.getLocation
       deathLocationMap.put(player, loc)
-      player sendMessage "你死了 " + player.hashCode
 
       if(show_death_loc) {
         runTask(player, 0, 1, key_show_death_loc) { ()=>
@@ -103,10 +107,7 @@ class HomeOrBack extends JavaPlugin {
 
     @EventHandler def onPlayerRespawn(event: PlayerRespawnEvent) {
       val player = event.getPlayer
-      player sendMessage "重生了 " + player.hashCode
       if(deathLocationMap.containsKey(player)) {
-        player sendMessage "死亡地点: " + deathLocationMap.get(player)
-
         if(auto_back) {
           player backTo (self.deathLocationMap get player)
         } else {
@@ -115,11 +116,6 @@ class HomeOrBack extends JavaPlugin {
           }
         }
       }
-    }
-
-    @EventHandler def onInventoryClose(event: InventoryCloseEvent) {
-      val player = event.getPlayer
-      player sendMessage "你关闭了gui " + event.getInventory.getTitle
     }
 
     @EventHandler def onInventoryClick(e: InventoryClickEvent) {
