@@ -20,15 +20,13 @@ object Lang {
   val lang_map = new util.HashMap[String, Lang]()
 
   def getFor(player: Player): Lang = {
-    val self = HomeOrBack.instance
-    var local = player.getLocale.toLowerCase
+    val local = player.getLocale.toLowerCase
     if((lang_map containsKey local) && !(local == "zh_cn" && self.lang == "lzh_Hans")) lang_map get local
     else if(lang_map containsKey self.lang) lang_map get self.lang
     else lang_map get "en"
   }
 
   def loadLang(): Unit = {
-    val self = HomeOrBack.instance
     val src = classOf[HomeOrBack].getProtectionDomain.getCodeSource
     val jar = src.getLocation
     val zip = new ZipInputStream(jar.openStream)

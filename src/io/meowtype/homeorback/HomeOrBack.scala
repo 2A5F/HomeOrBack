@@ -11,14 +11,12 @@ import org.bukkit.event.player._
 import org.bukkit.event._
 import org.bukkit.inventory._
 import org.bukkit.plugin.java.JavaPlugin
-import ReSpawnGui._
 import org.bukkit.configuration.ConfigurationSection
 
 class HomeOrBack extends JavaPlugin {
-  private val self = this
 
   override def onLoad() {
-    HomeOrBack._instance = this
+    self = this
     saveDefaultConfig()
     Lang.loadLang()
     getLogger info "Loaded"
@@ -29,6 +27,10 @@ class HomeOrBack extends JavaPlugin {
     getCommand("hob") setExecutor  this
     getCommand("back") setExecutor  this
     getLogger info "Enabled"
+  }
+
+  override def onDisable() {
+    getLogger info "Disabled"
   }
 
   // region Configs
@@ -43,27 +45,28 @@ class HomeOrBack extends JavaPlugin {
     def enable: Boolean = section.getBoolean("enable", true)
     def min: Double = section.getDouble("min", 8)
     def max: Double = section.getDouble("max", 32)
+    def max_try: Int = section.getInt("max_try", 100)
+    def uniform: Boolean = section.getBoolean("uniform", true)
   }
 
   def back_command: Boolean = getConfig.getBoolean("back_command", true)
 
-  def store_location: Boolean = getConfig.getBoolean("store_location", false)
+  def show_death_loc: Boolean = getConfig.getBoolean("show_death_loc", false)
 
-  def debug: Boolean = getConfig.getBoolean("debug", false)
+  def store_location: Boolean = getConfig.getBoolean("store_location", false)
 
   // endregion
 
-  override def onDisable() {
-    getLogger info "Disabled"
-  }
+  private val key_showP = new Object
+  private val key_show_death_loc = new Object
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
     if(!sender.isInstanceOf[Player]) return true
     val player = sender.asInstanceOf[Player]
     if(label == "hob") {
       player sendMessage util.Arrays.deepToString(args.asInstanceOf[Array[AnyRef]])
+      Tpr.debug_show_randomPointWithinTheRing(player, player.getLocation, 100)
       //todo
-      // player open new ReSpawnGui(this, Lang getFor player)
       true
     } else if(label == "back") {
       player backTo (self.deathLocationMap get player)
@@ -73,12 +76,20 @@ class HomeOrBack extends JavaPlugin {
 
   val deathLocationMap = new util.WeakHashMap[Player, Location]
 
+
   object listener extends Listener {
 
     @EventHandler def onPlayerDeath(event: PlayerDeathEvent) {
       val player = event.getEntity
-      deathLocationMap.put(player, player.getLocation)
+      val loc = player.getLocation
+      deathLocationMap.put(player, loc)
       player sendMessage "你死了 " + player.hashCode
+
+      if(show_death_loc) {
+        runTask(player, 0, 1, key_show_death_loc) { ()=>
+          player showPoint2dOn (Particle.CLOUD, loc)
+        }
+      }
 
       if(auto_respawn) {
         runTask { ()=>
@@ -97,7 +108,7 @@ class HomeOrBack extends JavaPlugin {
           player backTo (self.deathLocationMap get player)
         } else {
           runTask { () =>
-            player open new ReSpawnGui(self, Lang getFor player)
+            player open new ReSpawnGui(Lang getFor player)
           }
         }
       }
@@ -115,8 +126,4 @@ class HomeOrBack extends JavaPlugin {
     }
 
   }
-}
-object HomeOrBack {
-  private var _instance: HomeOrBack = _
-  def instance: HomeOrBack = _instance
 }

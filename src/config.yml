@@ -9,18 +9,21 @@ auto_back: false
 # Back to the random ground near the place of death
 back_random:
   enable: true
-  # Mast > 0
+  # Must > 0
   min: 8
-  # Mast > min
+  # Must > min
   max: 32
+  # The maximum number of try to generate a random location
+  # Must >= 10
+  max_try: 100
+  # Generate evenly distributed random points
+  uniform: true
 
 # Use /back to back at any time
 back_command: true
 
+# Show death location
+show_death_loc: false
+
 # Store the location of the death
 store_location: false
-
-
-
-
-debug: false

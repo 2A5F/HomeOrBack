@@ -6,9 +6,8 @@ import org.bukkit._
 import org.bukkit.entity._
 import org.bukkit.event.inventory._
 import org.bukkit.inventory._
-import ReSpawnGui._
 
-class ReSpawnGui(val self: HomeOrBack, lang: Lang) extends InventoryHolder {
+class ReSpawnGui(lang: Lang) extends InventoryHolder {
   private val inv: Inventory = Bukkit.createInventory(this, 9 * 3, lang.choose_respawn)
 
   private val bed = setItem(9 + 2, Material.BED, lang.respawn_on_spawn, lang.auto_choose_when_close)
@@ -57,32 +56,6 @@ class ReSpawnGui(val self: HomeOrBack, lang: Lang) extends InventoryHolder {
     } else if(targetItem == grass) {
       runTask { () => player closeInventory() }
       player backTo (self.deathLocationMap get player)
-    }
-  }
-}
-object ReSpawnGui {
-  implicit class PlayOpenGui(val player: Player) {
-    def open(inv: ReSpawnGui) {
-      inv open player
-    }
-    def tpr(loc: Location) {
-      Tpr.tpr(player, loc)
-    }
-    def backTo(loc: Location) {
-      val self = HomeOrBack.instance
-      if(loc == null) {
-        player.sendMessage((Lang getFor player).no_death_loc)
-        if(self.debug) self.getLogger.info("[debug(backTo)]: " + player.toString + " cant back: player not died yet")
-        return
-      }
-      if(self.back_random.enable) {
-        if(self.debug) self.getLogger.info("[debug(backTo.tpr)]: " + player.toString +" try tpr to " + loc.toString)
-        player tpr loc
-      } else {
-        if(self.debug) self.getLogger.info("[debug(backTo.tp)]: " + player.toString +" tp to " + loc.toString)
-        player teleport loc
-      }
-      self.deathLocationMap remove player
     }
   }
 }
