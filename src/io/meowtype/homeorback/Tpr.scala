@@ -1,8 +1,10 @@
 package io.meowtype.homeorback
 
+import java.io.File
 import java.util
 
 import org.bukkit.block.BlockFace
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.{ChatColor, Location, Material, Particle, WorldBorder}
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
@@ -62,9 +64,12 @@ object Tpr {
     val sx = target.getBlockX
     val sz = target.getBlockZ
 
-    var t = 0
     val max_try = self.back_random.max_try
     if(max_try < 10)  new Exception("Config Error: [back_random.max_try] must be >= 10")
+
+    var in_water: Location = null
+
+    var t = 0
     val loc = loopRc[Location](()=> t < max_try, ()=> t += 1, ()=> null) { (break: Action[Location], continue: Action0) =>
       val vec = if(self.back_random.uniform) uniformRandomPointWithinTheRing(sx, sz, min, max) else randomPointWithinTheRing(sx, sz, min, max)
       val y = world.getHighestBlockYAt(vec.getBlockX, vec.getBlockZ)
@@ -77,14 +82,21 @@ object Tpr {
         val a = a1.getRelative(BlockFace.DOWN)
         val a2 = a1.getRelative(BlockFace.UP)
 
-        (a.getType.isSolid || a.getType == Material.WATER || a.getType == Material.STATIONARY_WATER) &&
+        val is: Boolean = if(self.back_random.never_water) a.getType.isSolid && a1.getType == Material.AIR && a2.getType == Material.AIR
+        else if ((a.getType.isSolid || a.getType == Material.WATER || a.getType == Material.STATIONARY_WATER) &&
           (a1.getType == Material.AIR || a1.getType == Material.WATER || a1.getType == Material.STATIONARY_WATER) &&
-          a2.getType == Material.AIR
+          a2.getType == Material.AIR)
+          if(self.back_random.try_to_land) if(a.getType.isSolid && a1.getType == Material.AIR && a2.getType == Material.AIR) true else {
+            in_water = loc
+            false
+          } else true
+        else false
+        is
       }
 
       val maxHeight = loc.getBlockY
       val centerY = maxHeight / 2
-      if(loc.getBlock.getRelative(BlockFace.DOWN).getType == Material.BEDROCK && loc.getBlockY >= 100) { // like world_nether
+      if(checkIsLike_world_nether(loc, target)) { // like world_nether
         val loc1 = new Location(world, x, centerY, z)
         if(toCheck(loc1)) break(loc1)
         var y = 1
@@ -101,10 +113,12 @@ object Tpr {
       if(toCheck(loc) && !isOutsideOfBorder(loc)) break(loc)
     }
 
-    if(loc == null) {
-      player sendMessage (Lang getFor player).tpr_failed
-    } else {
+    if(loc != null) {
       player teleport loc
+    } else if(self.back_random.try_to_land && in_water != null) {
+      player teleport in_water
+    } else {
+      player sendMessage (Lang getFor player).tpr_failed
     }
   }
 
@@ -116,5 +130,43 @@ object Tpr {
     val x_center = border.getCenter.getX
     val z_center = border.getCenter.getZ
     (x > size + x_center || -x > size - x_center) || (z > size + z_center || -z > size - z_center)
+  }
+
+  def checkIsLike_world_nether(loc: Location, target: Location): Boolean = {
+    val world = loc.getWorld
+    val name = world.getName
+    val is = if(worlds contains name) {
+      worlds getBoolean name
+    } else {
+      val block = loc.getBlock.getRelative(BlockFace.DOWN)
+      val is = if(block.getType == Material.BEDROCK && block.getY >= 100) {
+        var i = 0
+        loopR[Boolean](()=> i < 3, ()=> i += 1, ()=> true) { break: Action[Boolean] =>
+          val x = Math.random * 1000000
+          val z = Math.random * 1000000
+          val rb = new Location(world, x, block.getY, z).getBlock
+          if(!(rb.getType == Material.BEDROCK)) break(false)
+        }
+      } else false
+      worlds set (name, is)
+      saveWorlds()
+      is
+    }
+    if(loc.getY<=target.getY) false else is
+  }
+
+  var worlds: YamlConfiguration = _
+
+  def loadWorlds() {
+    val worlds_file = new File(self.getDataFolder, "worlds.yml")
+    if(!worlds_file.exists) {
+      worlds = new YamlConfiguration
+      worlds save worlds_file
+    } else worlds = YamlConfiguration loadConfiguration worlds_file
+  }
+
+  def saveWorlds() {
+    val worlds_file = new File(self.getDataFolder, "worlds.yml")
+    worlds save worlds_file
   }
 }

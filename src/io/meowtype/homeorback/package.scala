@@ -10,6 +10,7 @@ import java.util.zip.{ZipEntry, ZipInputStream}
 import org.bukkit.{Bukkit, Location, Particle}
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.{BukkitRunnable, BukkitTask}
+import org.sqlite.SQLiteConfig
 
 package object homeorback {
   var self: HomeOrBack = _
@@ -198,5 +199,7 @@ package object homeorback {
       player.spawnParticle(typ, loc.getX, loc.getWorld.getMaxHeight / 2, loc.getZ,  loc.getWorld.getMaxHeight / 2, 0, loc.getWorld.getMaxHeight * 2, 0, 0)
     }
   }
+
+
 }
 

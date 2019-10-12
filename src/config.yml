@@ -16,8 +16,12 @@ back_random:
   # The maximum number of try to generate a random location
   # Must >= 10
   max_try: 100
-  # Generate evenly distributed random points
+  # Generate uniformly random location
   uniform: true
+  # Generate random location on land as much as possible
+  try_to_land: true
+  # Never generate random location in the water
+  never_water: false
 
 # Use /back to back at any time
 back_command: true

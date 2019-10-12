@@ -19,6 +19,7 @@ class HomeOrBack extends JavaPlugin {
     self = this
     saveDefaultConfig()
     Lang.loadLang()
+    Tpr.loadWorlds()
     getLogger info "Loaded"
   }
 
@@ -47,6 +48,8 @@ class HomeOrBack extends JavaPlugin {
     def max: Double = section.getDouble("max", 32)
     def max_try: Int = section.getInt("max_try", 100)
     def uniform: Boolean = section.getBoolean("uniform", true)
+    def try_to_land: Boolean = section.getBoolean("try_to_land", true)
+    def never_water: Boolean = section.getBoolean("never_water", false)
   }
 
   def back_command: Boolean = getConfig.getBoolean("back_command", true)
