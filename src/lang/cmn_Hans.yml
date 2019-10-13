@@ -9,3 +9,10 @@ back_at_any_time: §f你随时都能使用 §6/back §f来回到死亡地点
 tpr_failed: §c随机传送失败，附近没有任何落脚点
 no_death_loc: §c返回失败，你还没有死呢！
 no_permission_command: §c执行失败，你没有权限
+command_only_player: §c此命令只能由玩家执行
+reloaded: 已重新加载配置
+help:
+ - /hob §6或 §f/hob help §6-- 显示帮助
+ - /back §6或 §f/hob back §6-- 返回死亡地点
+help_op:
+ - /hob reload §6-- 重新加载配置

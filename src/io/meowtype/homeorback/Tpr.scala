@@ -5,7 +5,7 @@ import java.util
 
 import org.bukkit.block.BlockFace
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.{ChatColor, Location, Material, Particle, WorldBorder}
+import org.bukkit.{Location, Material, Particle}
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 

@@ -9,3 +9,10 @@ back_at_any_time: §fYou can always use §f/back \n§fto get back to the death l
 tpr_failed: §cRandom teleport failed, there is no space nearby to stand
 no_death_loc: §cCan't back, you have not died yet!
 no_permission_command: §cExecution command failed, you do not have permission
+command_only_player: §cThis command can only be executed by the player
+reloaded: Reloaded configuration
+help:
+- /hob §6or §f/hob help §6-- show help
+- /back §6or §f/hob back §6-- back to death
+help_op:
+- /hob reload §6-- reload config

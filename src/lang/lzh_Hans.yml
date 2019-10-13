@@ -9,3 +9,10 @@ back_at_any_time: §f尔时皆可以 §6/back §f归死地
 tpr_failed: §c随传失败，近无可立之间
 no_death_loc: §c不可归，汝尚未死！
 no_permission_command: §c不可执令，汝无权度
+command_only_player: §c此令必若玩家始行
+reloaded: 已复为置
+help:
+- /hob §6或 §f/hob help §6-- 示助
+- /back §6或 §f/hob back §6-- 归死地
+help_op:
+- /hob reload §6-- 更为置
