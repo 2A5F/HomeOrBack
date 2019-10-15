@@ -2,7 +2,7 @@
 lang: en
 
 # Will not display the death screen
-auto_respawn: true
+auto_respawn: false
 # Set to true to auto back to the place of death after the player dies
 auto_back: false
 
