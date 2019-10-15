@@ -191,7 +191,7 @@ package object homeorback {
       } else {
         player teleport loc
       }
-      self.deathLocationMap remove player
+      self removeDeathLoc player
     }
     def showPoint2dOn(loc: Location): Unit = showPoint2dOn(Particle.VILLAGER_HAPPY, loc)
     def showPoint2dOn(typ: Particle, loc: Location) {

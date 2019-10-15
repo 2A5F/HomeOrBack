@@ -55,7 +55,7 @@ class ReSpawnGui(lang: Lang) extends InventoryHolder {
       runTask { () => player closeInventory() }
     } else if(targetItem == grass) {
       runTask { () => player closeInventory() }
-      player backTo (self.deathLocationMap get player)
+      player backTo (self getDeathLoc player)
     }
   }
 }

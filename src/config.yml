@@ -30,5 +30,4 @@ back_command: true
 show_death_loc: false
 
 # Store the location of the death
-# todo
-store_location: false
+store_location: true

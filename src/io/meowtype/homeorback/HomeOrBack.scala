@@ -1,5 +1,7 @@
 package io.meowtype.homeorback
 
+import java.io.File
+import java.sql.{Connection, DriverManager}
 import java.util
 import java.util.stream.Collectors
 
@@ -20,6 +22,7 @@ class HomeOrBack extends JavaPlugin {
     saveDefaultConfig()
     Lang.loadLang()
     Tpr.loadWorlds()
+    if(store_location) loadDb()
     getLogger info "Loaded"
   }
 
@@ -100,7 +103,7 @@ class HomeOrBack extends JavaPlugin {
     if(!player.hasPermission("hob.back")) {
       player sendMessage (Lang getFor player).no_permission_command
     } else {
-      player backTo (self.deathLocationMap get player)
+      player backTo getDeathLoc(player)
     }
   }
 
@@ -130,15 +133,95 @@ class HomeOrBack extends JavaPlugin {
     list
   }
 
-  val deathLocationMap = new util.WeakHashMap[Player, Location]
+  // region db
 
+  var db: Connection = _
+  def loadDb() {
+    val dir = getDataFolder
+    val dbFile = new File(getDataFolder, "data.db")
+    dir.mkdir()
+    Class.forName("org.sqlite.JDBC")
+    db = DriverManager.getConnection("jdbc:sqlite:" + dbFile)
+    loadDbDeathLoc()
+  }
+
+  def loadDbDeathLoc() {
+    val stat = db.createStatement
+    stat executeUpdate "create table if not exists death_loc (uuid text primary key not null, name text, world_id text not null, world_name text, x numeric not null, y numeric not null, z numeric not null)"
+    stat.close()
+  }
+
+  // endregion
+
+  //region death location map
+
+  val deathLocationMap = new util.WeakHashMap[Player, Location]
+  def addDeathLoc(player: Player, loc: Location) {
+    deathLocationMap.put(player, loc)
+    if(store_location) {
+      if(db == null) loadDb()
+      val stat = db prepareStatement "replace into death_loc values(?, ?, ?, ?, ?, ?, ?)"
+      stat.setString(1, player.getUniqueId.toString)
+      stat.setString(2, player.getName)
+      stat.setString(3, loc.getWorld.getUID.toString)
+      stat.setString(4, loc.getWorld.getName)
+      stat.setDouble(5, loc.getX)
+      stat.setDouble(6, loc.getY)
+      stat.setDouble(7, loc.getZ)
+      stat.executeUpdate()
+      stat.close()
+    }
+  }
+  def containDeathLoc(player: Player): Boolean = {
+    val has = deathLocationMap containsKey player
+    if(!store_location) return has
+    if(has) return has
+    if(db == null) loadDb()
+    val stat = db prepareStatement "select count(*) from death_loc where uuid = ?"
+    stat.setString(1, player.getUniqueId.toString)
+    val res = stat.executeQuery()
+    stat.close()
+    res.getInt(1) > 0
+  }
+  def getDeathLoc(player: Player): Location = {
+    val loc = deathLocationMap get player
+    if(!store_location) return loc
+    if(loc != null) return loc
+    if(db == null) loadDb()
+    val stat = db prepareStatement "select world_id, x, y, z from death_loc where uuid = ?"
+    stat.setString(1, player.getUniqueId.toString)
+    val res = stat.executeQuery()
+    stat.close()
+    val world_id = res.getString("world_id")
+    val x = res.getDouble("x")
+    val y = res.getDouble("y")
+    val z = res.getDouble("z")
+    if(world_id == null) return null
+    val world = Bukkit getWorld world_id
+    if(world == null) return null
+    val nloc = new Location(world, x, y, z)
+    deathLocationMap.put(player, loc)
+    nloc
+  }
+  def removeDeathLoc(player: Player) {
+    deathLocationMap remove player
+    if(store_location) {
+      if(db == null) loadDb()
+      val stat = db prepareStatement "delete from death_loc where uuid = ?"
+      stat.setString(1, player.getUniqueId.toString)
+      stat.executeUpdate()
+      stat.close()
+    }
+  }
+
+  // endregion
 
   object listener extends Listener {
 
     @EventHandler def onPlayerDeath(event: PlayerDeathEvent) {
       val player = event.getEntity
       val loc = player.getLocation
-      deathLocationMap.put(player, loc)
+      addDeathLoc(player, loc)
 
       if(show_death_loc) {
         runTask(player, 0, 1, key_show_death_loc) { ()=>
@@ -155,9 +238,9 @@ class HomeOrBack extends JavaPlugin {
 
     @EventHandler def onPlayerRespawn(event: PlayerRespawnEvent) {
       val player = event.getPlayer
-      if(deathLocationMap.containsKey(player)) {
+      if(containDeathLoc(player)) {
         if(auto_back) {
-          player backTo (self.deathLocationMap get player)
+          player backTo getDeathLoc(player)
         } else {
           runTask { () =>
             player open new ReSpawnGui(Lang getFor player)
