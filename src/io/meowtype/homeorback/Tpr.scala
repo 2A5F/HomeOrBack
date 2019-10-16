@@ -111,7 +111,24 @@ object Tpr {
         break(loc)
       }
 
-      if(toCheck(loc) && !isOutsideOfBorder(loc)) break(loc)
+      if(toCheck(loc) && !isOutsideOfBorder(loc)) {
+        if(!self.back_random.try_not_leaves) break(loc)
+        else {
+          var y: Int = loc.getY.toInt - 1
+          val lloc = new Location(world, loc.getX, y, loc.getZ)
+          if(!lloc.getBlock.getType.name.toLowerCase.contains("leaves")) break(loc)
+          else {
+            y -= 2
+            if(y <=0 ) break(loc)
+            loop(()=> y > 0, ()=> y -= 1) { _ =>
+              val nloc = new Location(world, loc.getX, y, loc.getZ)
+              //todo
+              if(toCheck(nloc) && !lloc.getBlock.getType.name.toLowerCase.contains("leaves")) break(nloc)
+            }
+            break(loc)
+          }
+        }
+      }
     }
 
     if(loc != null) {
