@@ -7,12 +7,14 @@ respawn_at_death: §6在死亡地点重生
 back_near_any_time: §f你随时都能使用 §6/back §f来回到死亡地点附近
 back_at_any_time: §f你随时都能使用 §6/back §f来回到死亡地点
 tpr_failed: §c随机传送失败，附近没有任何落脚点
+tpr_you_can_retry: "§6你可以使用 §f/back §6重新尝试, 重试机会: §f§{LastRetry}"
+tpr_cant_retry: §c重试机会已用完
 no_death_loc: §c返回失败，你还没有死呢！
 no_permission_command: §c执行失败，你没有权限
 command_only_player: §c此命令只能由玩家执行
 reloaded: 已重新加载配置
-help:
- - /hob §6或 §f/hob help §6-- 显示帮助
- - /back §6或 §f/hob back §6-- 返回死亡地点
-help_op:
- - /hob reload §6-- 重新加载配置
+kill_self: §{PlayerName} 自杀了
+help: /hob §6或 §f/hob help §6-- 显示帮助
+help_back: /back §6或 §f/hob back §6-- 返回死亡地点
+help_kill_self: /killself §6或 §f/kills §6或 §f/ks §6或 §f/hob [killself | kills | ks] §6-- 自杀
+help_reload: /hob reload §6-- 重新加载配置

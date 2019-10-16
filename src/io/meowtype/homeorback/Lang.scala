@@ -20,12 +20,17 @@ class Lang(val name: String,
            val back_near_any_time: String,
            val back_at_any_time: String,
            val tpr_failed: String,
+           val tpr_you_can_retry: Func1[Int, String],
+           val tpr_cant_retry: String,
            val no_death_loc: String,
            val no_permission_command: String,
            val command_only_player: String,
            val reloaded: String,
-           val help: util.List[String],
-           val help_op: util.List[String],
+           val kill_self: Func1[String, String],
+           val help: String,
+           val help_back: String,
+           val help_kill_self: String,
+           val help_reload: String,
           ) {
   var i = 0
   loop(()=> i < mapping.size, ()=> i += 1) { _ =>
@@ -83,12 +88,17 @@ object Lang {
         lang getString "back_near_any_time",
         lang getString "back_at_any_time",
         lang getString "tpr_failed",
+        get_tpr_you_can_retry(lang getString "tpr_you_can_retry"),
+        lang getString "tpr_cant_retry",
         lang getString "no_death_loc",
         lang getString "no_permission_command",
         lang getString "command_only_player",
         lang getString "reloaded",
-        lang getStringList "help",
-        lang getStringList "help_op",
+        get_kill_self(lang getString "kill_self"),
+        lang getString "help",
+        lang getString "help_back",
+        lang getString "help_kill_self",
+        lang getString "help_reload",
       )
     }
 
@@ -98,4 +108,7 @@ object Lang {
       l.mapping forEach { m =>  lang_map.put(m, l)}
     }
   }
+
+  def get_kill_self(msg: String): Func1[String, String] = name => msg.replaceAll("\\u00A7\\{PlayerName\\}", name)
+  def get_tpr_you_can_retry(msg: String): Func1[Int, String] = count => msg.replaceAll("\\u00A7\\{LastRetry\\}", count.toString)
 }

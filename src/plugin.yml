@@ -4,19 +4,32 @@ author: meowtype.io
 main: io.meowtype.homeorback.HomeOrBack
 permissions:
   hob.*:
+    default: false
+    children:
+      hob.op: true
+      hob.base: true
+  hob.op:
+    default: op
+  hob.base:
     default: true
     children:
       hob.back: true
-      hob.op: true
-  hob.op:
-    default: op
-  hob.back:
+      hob.killself: true
+  hob.base.back:
+    default: true
+  hob.base.killself:
     default: true
 commands:
   hob:
     aliases:
+    - homeorback
     - HomeOrBack
     - home-or-back
-    permission: hob.*
+    permission: hob.base
   back:
-    permission: hob.back
+    permission: hob.base.back
+  killself:
+    aliases:
+    - ks
+    - kills
+    permission: hob.base.killself

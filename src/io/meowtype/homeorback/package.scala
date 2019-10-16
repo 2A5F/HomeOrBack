@@ -33,6 +33,9 @@ package object homeorback {
   trait Func[R] {
     def apply(): R
   }
+  trait Func1[A, R] {
+    def apply(a: A): R
+  }
   trait Action[A] {
     def apply(a: A): Unit
   }
@@ -178,10 +181,10 @@ package object homeorback {
     def open(inv: ReSpawnGui) {
       inv open player
     }
-    def tpr(loc: Location) {
+    def tpr(loc: RetryableLocation) {
       Tpr.tpr(player, loc)
     }
-    def backTo(loc: Location) {
+    def backTo(loc: RetryableLocation) {
       if(loc == null) {
         player.sendMessage((Lang getFor player).no_death_loc)
         return
@@ -189,9 +192,9 @@ package object homeorback {
       if(self.back_random.enable) {
         player tpr loc
       } else {
-        player teleport loc
+        player teleport loc.loc
+        self removeDeathLoc player
       }
-      self removeDeathLoc player
     }
     def showPoint2dOn(loc: Location): Unit = showPoint2dOn(Particle.VILLAGER_HAPPY, loc)
     def showPoint2dOn(typ: Particle, loc: Location) {

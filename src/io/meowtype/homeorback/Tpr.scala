@@ -1,6 +1,6 @@
 package io.meowtype.homeorback
 
-import java.io.File
+import java.io.{File, InputStreamReader}
 import java.util
 
 import org.bukkit.block.BlockFace
@@ -55,17 +55,18 @@ object Tpr {
     new Vector(x + 0.5, 0, z + 0.5)
   }
 
-  def tpr(player: Player, target: Location) {
+  def tpr(player: Player, target: RetryableLocation) {
     val min: Double = self.back_random.min
     val max: Double = self.back_random.max
     if(min <= 0) new Exception("Config Error: [back_random.min] must be > 0")
     if(max <= min) new Exception("Config Error: [back_random.max] must be > [back_random.min]")
-    val world = target.getWorld
-    val sx = target.getBlockX
-    val sz = target.getBlockZ
+    val world = target.loc.getWorld
+    val sx = target.loc.getBlockX
+    val sz = target.loc.getBlockZ
 
     val max_try = self.back_random.max_try
-    if(max_try < 10)  new Exception("Config Error: [back_random.max_try] must be >= 10")
+    if(max_try < 10) new Exception("Config Error: [back_random.max_try] must be >= 10")
+    if(self.back_random.max_retry < 1) new Exception("Config Error: [back_random.max_retry] must be >= 1")
 
     var in_water: Location = null
 
@@ -96,7 +97,7 @@ object Tpr {
 
       val maxHeight = loc.getBlockY
       val centerY = maxHeight / 2
-      if(checkIsLike_world_nether(loc, target)) { // like world_nether
+      if(checkIsLike_world_nether(loc, target.loc)) { // like world_nether
         val loc1 = new Location(world, x, centerY, z)
         if(toCheck(loc1)) break(loc1)
         var y = 1
@@ -115,10 +116,22 @@ object Tpr {
 
     if(loc != null) {
       player teleport loc
+      self removeDeathLoc player
     } else if(self.back_random.try_to_land && in_water != null) {
       player teleport in_water
+      self removeDeathLoc player
     } else {
       player sendMessage (Lang getFor player).tpr_failed
+      if(self.back_command) {
+        val lang = Lang getFor player
+        if(target.retry >= self.back_random.max_retry) {
+          self removeDeathLoc player
+          player sendMessage lang.tpr_cant_retry
+        } else {
+          self.setDeathLoc(player, target.loc, target.retry + 1)
+          player sendMessage lang.tpr_you_can_retry(self.back_random.max_retry - target.retry)
+        }
+      } else self removeDeathLoc player
     }
   }
 
@@ -159,10 +172,17 @@ object Tpr {
 
   def loadWorlds() {
     val worlds_file = new File(self.getDataFolder, "worlds.yml")
+    val def_worlds = new InputStreamReader(self.getResource("worlds.yml"), "UTF8")
     if(!worlds_file.exists) {
-      worlds = new YamlConfiguration
+      if(def_worlds == null) worlds = new YamlConfiguration
+      else worlds = YamlConfiguration.loadConfiguration(def_worlds)
       worlds save worlds_file
-    } else worlds = YamlConfiguration loadConfiguration worlds_file
+    } else {
+      worlds = YamlConfiguration loadConfiguration worlds_file
+      if(def_worlds != null) {
+        worlds.setDefaults(YamlConfiguration.loadConfiguration(def_worlds))
+      }
+    }
   }
 
   def saveWorlds() {

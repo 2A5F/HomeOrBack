@@ -16,12 +16,17 @@ back_random:
   # The maximum number of try to generate a random location
   # Must >= 10
   max_try: 100
+  # The number of times a player can retry after a failure
+  # Must >= 1
+  max_retry: 3
   # Generate uniformly random location
   uniform: true
   # Generate random location on land as much as possible
   try_to_land: true
   # Never generate random location in the water
   never_water: false
+  # Try generate under the tree
+  try_not_leaves: true
 
 # Use /back to back at any time
 back_command: true
@@ -31,3 +36,6 @@ show_death_loc: false
 
 # Store the location of the death
 store_location: true
+
+# Use /killself to kill self
+kill_self_command: true
