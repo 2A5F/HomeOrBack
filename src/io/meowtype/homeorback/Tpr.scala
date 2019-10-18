@@ -3,6 +3,8 @@ package io.meowtype.homeorback
 import java.io.{File, InputStreamReader}
 import java.util
 
+import io.meowtype._
+
 import org.bukkit.block.BlockFace
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.{Location, Material, Particle}
@@ -25,6 +27,7 @@ object Tpr {
     loop(()=> i < try_count, ()=> i += 1) { _ =>
       val vec = if(self.back_random.uniform) uniformRandomPointWithinTheRing(sx, sz, min, max) else randomPointWithinTheRing(sx, sz, min, max)
       val loc = vec toLocation world
+
       points.add(loc)
     }
     runTask(player, 0, 1, key_debug_show_randomPointWithinTheRing) { ()=>

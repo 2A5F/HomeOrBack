@@ -1,9 +1,12 @@
 package io.meowtype.homeorback
 
-import java.io.File
+import java.io._
 import java.sql.{Connection, DriverManager}
 import java.util
 
+import io.meowtype._
+import io.meowtype.template._
+import io.meowtype.template.Template._
 import org.bukkit.command._
 import org.bukkit._
 import org.bukkit.entity._
@@ -12,9 +15,34 @@ import org.bukkit.event.inventory._
 import org.bukkit.event.player._
 import org.bukkit.event._
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.configuration._
 
 class HomeOrBack extends JavaPlugin {
+
+  override def saveDefaultConfig() {
+    val file = new File(getDataFolder, "config.yml")
+    val configStr = if(!file.exists) {
+      configFn(null)
+    }
+    else {
+      configFn(getParamMap)
+    }
+
+    new FileWriter(file) {
+      write(configStr)
+      close()
+    }
+  }
+
+  override def saveConfig() {
+    val file = new File(getDataFolder, "config.yml")
+    val configStr = configFn(getParamMap)
+
+    new FileWriter(file) {
+      write(configStr)
+      close()
+    }
+  }
 
   override def onLoad() {
     self = this
@@ -39,9 +67,50 @@ class HomeOrBack extends JavaPlugin {
 
   // region Configs
 
+  private var _configFn: ParamMap -> String = _
+  def configFn: ParamMap -> String = {
+    if(_configFn == null) {
+      val config = getResource("config.yml")
+
+      val result = new ByteArrayOutputStream
+      val buffer = new Array[Byte](1024)
+      var length = 0
+      while ({
+        length = config read buffer
+        length != -1
+      }) result.write(buffer, 0, length)
+      val code = result.toString("UTF-8")
+
+      _configFn = Template.gen(code)
+    }
+    _configFn
+  }
+  def getParamMap: ParamMap = new ParamMap {
+    put("lang", lang >> |)
+    put("auto_respawn", auto_respawn.toString >> |)
+    put("auto_back", auto_back.toString >> |)
+    put("back_random", | << new ParamMap {
+      put("enable", back_random.enable.toString >> |)
+      put("min", back_random.min.toString >> |)
+      put("max", back_random.max.toString >> |)
+      put("max_try", back_random.max_try.toString >> |)
+      put("max_retry", back_random.max_retry.toString >> |)
+      put("uniform", back_random.uniform.toString >> |)
+      put("try_to_land", back_random.try_to_land.toString >> |)
+      put("never_water", back_random.never_water.toString >> |)
+      put("try_not_leaves", back_random.try_not_leaves.toString >> |)
+    })
+    put("back_command", back_command.toString >> |)
+    put("show_back_command_msg", show_back_command_msg.toString >> |)
+    put("no_gui", no_gui.toString >> |)
+    put("show_death_loc", show_death_loc.toString >> |)
+    put("store_location", store_location.toString >> |)
+    put("kill_self_command", kill_self_command.toString >> |)
+  }
+
   def lang: String = getConfig.getString("lang", "en").toLowerCase
 
-  def auto_respawn: Boolean = getConfig.getBoolean("auto_respawn", false)
+  def auto_respawn: Boolean = getConfig.getBoolean("auto_respawn", true)
   def auto_back: Boolean = getConfig.getBoolean("auto_back", false)
 
   def back_random: BackRandom = new BackRandom(getConfig.getConfigurationSection("back_random"))
@@ -58,6 +127,8 @@ class HomeOrBack extends JavaPlugin {
   }
 
   def back_command: Boolean = getConfig.getBoolean("back_command", true)
+  def show_back_command_msg: Boolean = getConfig.getBoolean("show_back_command_msg", false)
+  def no_gui: Boolean = getConfig.getBoolean("no_gui", false)
 
   def show_death_loc: Boolean = getConfig.getBoolean("show_death_loc", false)
 
@@ -299,6 +370,6 @@ class HomeOrBack extends JavaPlugin {
   }
 }
 
-class RetryableLocation(val loc: Location, var retry: Int) {
+class RetryableLocation(val loc: Location, val retry: Int) {
   def this(loc: Location) = this(loc, 0)
 }

@@ -4,7 +4,8 @@ import java.io._
 import java.util
 import java.util.stream._
 import java.util.zip._
-import java.util.function._
+
+import io.meowtype._
 
 import org.bukkit.configuration.file._
 import org.bukkit.entity.Player
