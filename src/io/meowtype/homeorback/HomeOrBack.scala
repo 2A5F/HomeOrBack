@@ -302,10 +302,7 @@ class HomeOrBack extends JavaPlugin {
     val stat = db prepareStatement "select world_id, x, y, z, retry from death_loc where uuid = ?"
     stat.setString(1, player.getUniqueId.toString)
     val res = stat.executeQuery()
-    if(res.isClosed) {
-      getLogger.warning("Cant query Database")
-      return null
-    }
+    if(res.isClosed) return null
     val world_id = res.getString("world_id")
     val x = res.getDouble("x")
     val y = res.getDouble("y")
