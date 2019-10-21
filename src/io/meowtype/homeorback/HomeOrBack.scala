@@ -28,8 +28,9 @@ class HomeOrBack extends JavaPlugin {
       configFn(getParamMap)
     }
 
-    new FileWriter(file) {
+    new OutputStreamWriter(new FileOutputStream(file),"UTF-8") {
       write(configStr)
+      flush()
       close()
     }
   }
@@ -38,8 +39,9 @@ class HomeOrBack extends JavaPlugin {
     val file = new File(getDataFolder, "config.yml")
     val configStr = configFn(getParamMap)
 
-    new FileWriter(file) {
+    new OutputStreamWriter(new FileOutputStream(file),"UTF-8") {
       write(configStr)
+      flush()
       close()
     }
   }
@@ -141,10 +143,10 @@ class HomeOrBack extends JavaPlugin {
   private val key_show_death_loc = new Object
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
-    if(command.getName == "hob") {
+    if(command.getName == "homeorback") {
       if(args.length == 0 || args(0) == "help") {
         val lang = if (!sender.isInstanceOf[Player]) Lang.getDefault else Lang getFor sender.asInstanceOf[Player]
-        if(sender hasPermission "hob.op") {
+        if(sender hasPermission "homeorback.op") {
           sender sendMessage lang.help_reload
         }
         sender sendMessage lang.help
@@ -170,7 +172,7 @@ class HomeOrBack extends JavaPlugin {
         onKillself(player)
       } else return false
       true
-    } else if(command.getName == "back") {
+    } else if(command.getName == "homeorback-back") {
       if(!back_command) return false
       if(!sender.isInstanceOf[Player]) {
         sender sendMessage Lang.getDefault.command_only_player
@@ -179,7 +181,7 @@ class HomeOrBack extends JavaPlugin {
       val player = sender.asInstanceOf[Player]
       onBack(player)
       true
-    } else if(command.getName == "killself") {
+    } else if(command.getName == "homeorback-killself") {
       if(!kill_self_command) return false
       if(!sender.isInstanceOf[Player]) {
         sender sendMessage Lang.getDefault.command_only_player
@@ -192,7 +194,7 @@ class HomeOrBack extends JavaPlugin {
   }
 
   def onBack(player: Player) {
-    if(!player.hasPermission("hob.base.back")) {
+    if(!player.hasPermission("homeorback.base.back")) {
       player sendMessage (Lang getFor player).no_permission_command
     } else {
       player backTo getDeathLoc(player)
@@ -201,7 +203,7 @@ class HomeOrBack extends JavaPlugin {
 
   def onReload(sender: CommandSender) {
     var lang = if (!sender.isInstanceOf[Player]) Lang.getDefault else Lang getFor sender.asInstanceOf[Player]
-    if(!sender.hasPermission("hob.op")) {
+    if(!sender.hasPermission("homeorback.op")) {
       sender sendMessage lang.no_permission_command
       return
     }
@@ -213,7 +215,7 @@ class HomeOrBack extends JavaPlugin {
   }
 
   def onKillself(player: Player) {
-    if(!player.hasPermission("hob.base.killself")) {
+    if(!player.hasPermission("homeorback.base.killself")) {
       player sendMessage (Lang getFor player).no_permission_command
     } else {
       player setLastDamageCause new KillSelfEvent(player)
@@ -226,11 +228,14 @@ class HomeOrBack extends JavaPlugin {
   override def onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array[String]): util.List[String] = {
     val name = command.getName
     val list = new util.ArrayList[String]
-    if(name == "hob") {
+    if(name == "homeorback") {
       if(args.length == 0 || args(0) == "") {
         list add "help"
         list add "back"
-        if(sender hasPermission "hob.op") list add "reload"
+        list add "killself"
+        list add "kills"
+        list add "ks"
+        if(sender hasPermission "homeorback.op") list add "reload"
       }
     }
     list
@@ -297,12 +302,16 @@ class HomeOrBack extends JavaPlugin {
     val stat = db prepareStatement "select world_id, x, y, z, retry from death_loc where uuid = ?"
     stat.setString(1, player.getUniqueId.toString)
     val res = stat.executeQuery()
-    stat.close()
+    if(res.isClosed) {
+      getLogger.warning("Cant query Database")
+      return null
+    }
     val world_id = res.getString("world_id")
     val x = res.getDouble("x")
     val y = res.getDouble("y")
     val z = res.getDouble("z")
     val retry = res.getInt("retry")
+    stat.close()
     if(world_id == null) return null
     val world = Bukkit getWorld world_id
     if(world == null) return null
@@ -355,8 +364,18 @@ class HomeOrBack extends JavaPlugin {
         if(auto_back) {
           player backTo getDeathLoc(player)
         } else {
-          runTask { () =>
-            player open new ReSpawnGui(Lang getFor player)
+          if(back_command && show_back_command_msg) {
+            val lang = Lang getFor player
+            if(back_random.enable) {
+              player sendMessage lang.back_command_msg_near
+            } else {
+              player sendMessage lang.back_command_msg_at
+            }
+          }
+          if(!(back_command && no_gui)) {
+            runTask { () =>
+              player open new ReSpawnGui(Lang getFor player)
+            }
           }
         }
       }
