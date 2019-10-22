@@ -88,7 +88,7 @@ object Tpr {
 
         val is: Boolean = if(self.back_random.never_water) a.getType.isSolid && a1.getType == Material.AIR && a2.getType == Material.AIR
         else if ((a.getType.isSolid || a.getType == Material.WATER || a.getType == Material.STATIONARY_WATER) &&
-          (a1.getType == Material.AIR || a1.getType == Material.WATER || a1.getType == Material.STATIONARY_WATER) &&
+          (a1.getType == Material.AIR || a1.getType == Material.WATER || a1.getType == Material.STATIONARY_WATER || !a1.getType.isOccluding) &&
           a2.getType == Material.AIR)
           if(self.back_random.try_to_land) if(a.getType.isSolid && a1.getType == Material.AIR && a2.getType == Material.AIR) true else {
             in_water = loc
@@ -121,14 +121,23 @@ object Tpr {
           val lloc = new Location(world, loc.getX, y, loc.getZ)
           if(!lloc.getBlock.getType.name.toLowerCase.contains("leaves")) break(loc)
           else {
+            var lloc = loc
             y -= 2
-            if(y <=0 ) break(loc)
-            loop(()=> y > 0, ()=> y -= 1) { _ =>
+            if(y <=5 ) break(lloc)
+            loop(()=> y > 5, ()=> y -= 1) { _ =>
               val nloc = new Location(world, loc.getX, y, loc.getZ)
-              //todo
-              if(toCheck(nloc) && !lloc.getBlock.getType.name.toLowerCase.contains("leaves")) break(nloc)
+              val down = new Location(world, loc.getX, y - 1, loc.getZ)
+              if(down.getBlock.getType.name.toLowerCase.contains("leaves")) {
+                if(toCheck(nloc)) {
+                  lloc = nloc
+                }
+              } else if(down.getBlock.getType.isSolid || down.getBlock.getType == Material.WATER || down.getBlock.getType == Material.STATIONARY_WATER) {
+                if(toCheck(nloc)) {
+                  break(nloc)
+                } else  break(lloc)
+              }
             }
-            break(loc)
+            break(lloc)
           }
         }
       }

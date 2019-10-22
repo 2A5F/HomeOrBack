@@ -7,9 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ecac36f-346c-420a-b941-42a0432e6e37" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/io/meowtype/package.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/io/meowtype/package.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,9 +22,10 @@
     <session id="-1145493012">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="11" />
+          <entry key="project.closed" value="12" />
           <entry key="project.open.time.101" value="1" />
           <entry key="project.open.time.102" value="1" />
+          <entry key="project.open.time.136" value="1" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.28" value="1" />
           <entry key="project.open.time.55" value="1" />
@@ -37,7 +38,7 @@
           <entry key="project.open.time.80" value="1" />
           <entry key="project.open.time.82" value="1" />
           <entry key="project.open.time.90" value="2" />
-          <entry key="project.opened" value="16" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -48,7 +49,7 @@
           <entry key="Kotlin" value="6" />
           <entry key="Manifest" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Scala" value="32" />
+          <entry key="Scala" value="33" />
           <entry key="XML" value="15" />
           <entry key="YAML" value="85" />
         </counts>
@@ -58,8 +59,8 @@
           <entry key="IDEA_MODULE" value="37" />
           <entry key="JAVA" value="1431" />
           <entry key="Kotlin" value="742" />
-          <entry key="PLAIN_TEXT" value="96" />
-          <entry key="Scala" value="27211" />
+          <entry key="PLAIN_TEXT" value="112" />
+          <entry key="Scala" value="27616" />
           <entry key="YAML" value="2045" />
         </counts>
       </usages-collector>
@@ -70,11 +71,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="912">
-              <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
+            <state relative-caret-position="-580">
+              <caret line="87" selection-start-line="87" selection-end-line="87" />
               <folding>
                 <element signature="e#32#72#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/io/meowtype/package.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="124" column="87" selection-start-line="124" selection-start-column="87" selection-end-line="124" selection-end-column="87" />
             </state>
           </provider>
         </entry>
@@ -97,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="304" column="4" selection-start-line="304" selection-start-column="4" selection-end-line="304" selection-end-column="4" />
+            <state relative-caret-position="4656">
+              <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
               <folding>
                 <element signature="e#32#48#0" expanded="true" />
               </folding>
@@ -112,7 +122,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/jdbc3/JDBC3PreparedStatement.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="704">
               <caret line="67" selection-start-line="67" selection-end-line="67" />
             </state>
           </provider>
@@ -121,7 +131,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/core/CoreResultSet.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
+            <state relative-caret-position="960">
               <caret line="68" selection-start-line="68" selection-end-line="68" />
             </state>
           </provider>
@@ -222,11 +232,9 @@
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/Loop.kt" />
         <option value="$PROJECT_DIR$/testServer/plugins/HomeOrBack/config.yml" />
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/ReSpawnGui.scala" />
-        <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala" />
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/package.scala" />
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/test.java" />
         <option value="$PROJECT_DIR$/src/config.yml" />
-        <option value="$PROJECT_DIR$/src/io/meowtype/package.scala" />
         <option value="$PROJECT_DIR$/src/io/meowtype/template/Template.scala" />
         <option value="$PROJECT_DIR$/src/plugin.yml" />
         <option value="$PROJECT_DIR$/src/lang/cmn_Hans.yml" />
@@ -234,6 +242,8 @@
         <option value="$PROJECT_DIR$/src/lang/lzh_Hans.yml" />
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/Lang.scala" />
         <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala" />
+        <option value="$PROJECT_DIR$/src/io/meowtype/package.scala" />
+        <option value="$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala" />
       </list>
     </option>
   </component>
@@ -263,7 +273,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -274,12 +284,13 @@
             <path>
               <item name="HomeOrBack" type="b2602c69:ProjectViewProjectNode" />
               <item name="HomeOrBack" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HomeOrBack" type="b2602c69:ProjectViewProjectNode" />
               <item name="HomeOrBack" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="meowtype" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HomeOrBack" type="b2602c69:ProjectViewProjectNode" />
@@ -290,7 +301,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -303,7 +314,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571674787553" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1571730402135" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -372,7 +383,8 @@
       <workItem from="1571373213745" duration="10520000" />
       <workItem from="1571469178211" duration="1252000" />
       <workItem from="1571635939921" duration="1854000" />
-      <workItem from="1571656435340" duration="2555000" />
+      <workItem from="1571656435340" duration="2871000" />
+      <workItem from="1571720691862" duration="6380000" />
     </task>
     <task id="LOCAL-00001" summary="save">
       <created>1570710866817</created>
@@ -472,17 +484,24 @@
       <option name="project" value="LOCAL" />
       <updated>1571639621923</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fix getDeathLoc">
+      <created>1571675332363</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1571675332364</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="211088000" />
+    <option name="totallyTimeSpent" value="217784000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="846" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30563003" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30965146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -491,7 +510,7 @@
       <window_info id="设计器" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32867134" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932975" weight="0.32913166" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932975" visible="true" weight="0.32913166" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -502,7 +521,7 @@
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32867134" />
       <window_info anchor="bottom" id="Flutter Performance" order="12" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="调试" order="13" visible="true" weight="0.3277311" />
+      <window_info anchor="bottom" id="调试" order="13" weight="0.3277311" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -568,7 +587,8 @@
     <MESSAGE value="save" />
     <MESSAGE value="template" />
     <MESSAGE value="back command message" />
-    <option name="LAST_COMMIT_MESSAGE" value="back command message" />
+    <MESSAGE value="fix getDeathLoc" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix getDeathLoc" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -719,13 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/meowtype/package.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="30" column="55" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/util/stream/Stream.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -816,16 +829,6 @@
         <state relative-caret-position="-1872" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
-          <folding>
-            <element signature="e#32#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
@@ -833,10 +836,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/config.yml">
+    <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+        <state relative-caret-position="4656">
+          <caret line="306" column="30" selection-start-line="306" selection-start-column="30" selection-end-line="306" selection-end-column="30" />
+          <folding>
+            <element signature="e#32#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/jdbc3/JDBC3PreparedStatement.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/core/CoreResultSet.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
         </state>
       </provider>
     </entry>
@@ -860,27 +880,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/jdbc3/JDBC3PreparedStatement.class">
+    <entry file="file://$PROJECT_DIR$/src/config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="96">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/testServer/spigot-1.12.2.jar!/org/sqlite/core/CoreResultSet.class">
+    <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/Tpr.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/meowtype/homeorback/HomeOrBack.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="304" column="4" selection-start-line="304" selection-start-column="4" selection-end-line="304" selection-end-column="4" />
+        <state relative-caret-position="-580">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
           <folding>
-            <element signature="e#32#48#0" expanded="true" />
+            <element signature="e#32#72#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/meowtype/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="124" column="87" selection-start-line="124" selection-start-column="87" selection-end-line="124" selection-end-column="87" />
         </state>
       </provider>
     </entry>

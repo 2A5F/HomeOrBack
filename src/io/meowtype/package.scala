@@ -87,7 +87,7 @@ package object meowtype {
       while (c()) {
         try { a(break) }
         catch {
-          case break: Break => if(break.uid == uid) return
+          case break: Break => if(break.uid == uid) return else throw break
         }
         after()
       }
@@ -122,7 +122,7 @@ package object meowtype {
       while (c()) {
         try { a(break) }
         catch {
-          case break: BreakR[R] => if(break.uid == uid) return break.r
+          case break: BreakR[R] => if(break.uid == uid) return break.r else throw break
         }
         after()
       }
