@@ -8,7 +8,11 @@ Features:
 - Back to the death location (optional)
 - Back to the vicinity of the death location (optional)
 - Show the location of death (optional)
+- Try not in water (optional)
+- Try not under leaves (optional)
 - Use /back to back the death location (optional)
+- Storge the death location (optional)
+- Kill self command (optional)
 - Support random teleport of cave world like world_nether
 - Support for generating uniform ring random location
 
@@ -21,7 +25,7 @@ Features:
 
 # Config
 ```yaml
-# Default language; English: en, 简体普通话: cmn_Hans, 简体文言文: lzh_Hans
+# Language; English: en, 简体普通话: cmn_Hans, 简体文言文: lzh_Hans
 lang: en
 
 # Will not display the death screen
@@ -39,20 +43,36 @@ back_random:
   # The maximum number of try to generate a random location
   # Must >= 10
   max_try: 100
+  # The number of times a player can retry after a failure
+  # Must >= 1
+  max_retry: 3
   # Generate uniformly random location
   uniform: true
   # Generate random location on land as much as possible
   try_to_land: true
   # Never generate random location in the water
   never_water: false
+  # Try generate under the tree
+  try_not_leaves: true
 
 # Use /back to back at any time
 back_command: true
+# show 'you can use /back' message
+# require {back_command:true}
+show_back_command_msg: false
+# Will not display the respawn GUI
+# require {back_command: true}
+no_gui: false
 
 # Show death location
 show_death_loc: false
+
+# Store the location of the death
+store_location: true
+
+# Use /killself to kill self
+kill_self_command: true
 ```
-- The language option is only the default value, and the language file is automatically selected according to the player's language. If the corresponding language file does not exist, the default value is selected.
 - If you want to add a cave world like world_nether, just add or modify the "world_name: true" in worlds.yml.
 However, the default will automatically judge, based on whether the top layer has bedrock and random sampling
 
